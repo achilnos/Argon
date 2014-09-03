@@ -5,7 +5,7 @@ from F1D_Parameters import nx, dx, L
 import numpy as np
 
 #creates a 2d ?x2 matrix containing zeros in the first column and gridx in the second column. 
-condition = np.zeros([nx, L])
+condition = np.zeros([nx, 2])
 condition[:, 1] = np.array(gridx)
 
 gridu = []
