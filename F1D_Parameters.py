@@ -2,15 +2,18 @@
 #Use this module to set the parameters for the model. 
 #This script hold the parameters for a method to solve 1D Fouriers equation using an upwind scheme with an infite step function centered at zero as the intial condition. 
 #Dir should be /Users/Nicholas/Documents/Python/Argon
+#An example of acceptable experimental parameters: 
 
+#Length of System
+L = 8.0
 #Number of steps in space
-nx = 4000
+nx = 400
 #Number of steps in time
-nt = 5000
+nt = 500
 #Width of the time step
-dt = 0.001
+dt = 0.01
 #Width of the space step
-dx = 2 / ( nx - 1.0 )
+dx = L / ( nx - 1.0 )
 #With of model/ range of x
 #grid = range(0, 2, dx)
 #Diffusion coefficent

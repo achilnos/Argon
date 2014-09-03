@@ -2,16 +2,16 @@
 #This script defines the grid for F1D
 #It imports "dx" from the F1D_Parameters module and uses a decimal range function to generate the grid and place this string into "grid". Formats the numbers to display as exponentials if very small. 
 
-from F1D_Parameters import dx
+from F1D_Parameters import dx, L, nx
 
 def drange(start, stop, step):
      r = start
      while r <= stop:
      	yield r
      	r += step
-     #yield r
+     #yield r# not sure why I keep having to flip this on and off...
 
 gridx = []
-["%g" % x for x in drange(0.0, 2.0, dx)]
-for x in drange(0.0, 2.0, dx):
-    gridx.append(x)
+["%g" % x for x in drange(0.0, L, dx)]
+for x in drange(0.0, L, dx):
+    gridx.append(x+L/(nx*2))

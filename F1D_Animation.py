@@ -21,7 +21,7 @@ def run_animate(timestep):
     graph.set_ydata(u)
     return graph,
 
-this initalizes the animated plot
+
 x = condition[:, 1]
 u = condition[:, 0]
 fig1 = plt.figure()
