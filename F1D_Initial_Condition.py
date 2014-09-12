@@ -10,9 +10,10 @@ condition[:, 1] = np.array(gridx)
 
 gridu = []
 for i in gridx:
-    if i >= 1.0:
+    if i >= L/2:
         u = 1.0
     else:
         u = 0.0
     gridu.append(u)
 condition[:, 0] = np.array(gridu)
+
