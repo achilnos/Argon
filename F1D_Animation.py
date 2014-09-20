@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.animation as animation
 from F1D_Parameters import nx, nt, UL, UR, dx, UnL, UnR
-from F1D_BC_Vector import Dsp, D_secsp, bc
+from F1D_BC_Vector import Dsp, bc
 from F1D_Initial_Condition import condition
 import scipy as sp
 from scipy.sparse import csr_matrix, linalg

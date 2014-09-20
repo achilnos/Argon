@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.animation as animation
 from F1D_Parameters import nx, nt, UL, UR, dx, UnL, UnR
-from F1D_BC_Vector import Dsp, D_secsp, bc
+from F1D_BC_Vector import Dsp, D_secsp, bc, bc_sec
 from F1D_Initial_Condition import condition
 import scipy as sp
 from scipy.sparse import csr_matrix, linalg
@@ -22,7 +22,7 @@ def run_animate_two(timestep):
     U = np.delete(U, [0, nx-1], axis = 0)
     U_sec = np.delete(U_sec, [0, nx-1], axis = 0)
     U = U + bc
-    U_sec = U_sec + bc
+    U_sec = U_sec + bc_sec
     U = sp.sparse.linalg.spsolve(Dsp, U.T).T
     U_sec = sp.sparse.linalg.spsolve(D_secsp, U_sec.T).T
     u = np.append(np.append(U, UR)[::-1], UL)[::-1]
