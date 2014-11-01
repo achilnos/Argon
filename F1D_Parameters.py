@@ -13,7 +13,7 @@ import numpy as np
 
 def KIF_Mag():
     #Temperature (Kelvin)
-    T = 1000
+    T = 2000
     #Pressure (MPa)
     P = 1000
     #Water Concentration (weight percent)
@@ -27,11 +27,11 @@ def KIF_Mag():
 #Length of System
 L = 0.008
 #Number of steps in space
-nx = 100
+nx = 10000
 #Number of steps in time
 nt = 36000
 #Width of the time step (what are the units for this?)
-dt = 0.1
+dt = 1
 #Width of the space step
 dx = L / ( nx - 1.0 )
 #Diffusion coefficent

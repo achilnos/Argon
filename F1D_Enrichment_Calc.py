@@ -3,12 +3,11 @@
 import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.animation as animation
-from F1D_Parameters import nx, nt, UL, UR, dx, UnL, UnR
+from F1D_Parameters import nx, nt, UL, UR, dx, UnL, UnR, vis, vis_sec
 from F1D_BC_Vector import Dsp, D_secsp, bc, bc_sec
 from F1D_Initial_Condition import condition
 import scipy as sp
 from scipy.sparse import csr_matrix, linalg
-#from F1D_Calculation import 
 
 def Calculator(vis, vis_sec):
     u = (condition[:, 0])
@@ -29,29 +28,56 @@ def Calculator(vis, vis_sec):
         u_sec = np.append(np.append(U_sec, UR)[::-1], UL)[::-1]
     return u, u_sec
 
-def Plot(vis, vis_sec):
-    u, u_sec = Calculator(vis, vis_sec)
+def enrich_cor(vis, vis_sec):
+    Ar36, Ar40 = Calculator(vis, vis_sec)
+    #afrac is the initial fraction of 36Ar in the argon enriched couple at the begining of the experiment. Currently using atmospheric argon values. 
+    afrac = 0.00337
+    #bfrac is the initial fraction of 40Ar in the argon enriched couple at the begining of the experiment. Currently using atmospheric argon values. 
+    bfrac = 0.996
+    #Cin is the intial cocentration of argon per unit length in the enriched diffusion couple. In this formulation this is in parts per million. Using 350 ppm
+    Cin = 350.0
+    #Rin is the ratio of 36 to 40 Ar (initial)
+    Rin = afrac/bfrac
+    #Cain is the initial concentration of argon 36 in the DC (ppm). 
+    Cain = Cin*afrac
+    #Cbin is the initial concentration of argon 40 in the DC (ppm). 
+    Cbin = Cin*bfrac
+    #Faev is the evolved fraction of argon 36 at some point in x and t during the experiment.
+    Faev = Ar36*afrac
+    #Fbev is the evolved fraction of argon 40 at some point in x and t during the experiment.
+    Fbev = Ar40*bfrac
+    #Caev is the evolved concentration of 36Ar along the x axis at a particular timestep.
+    Caev = Ar36*Cain
+    #Cbev is the evolved concentration of 40Ar along the x axis at a particular timestep
+    Cbev = Ar40*Cbin
+    #Rev is the evolved ratio of 36Ar to 40Ar along the x axis at a particular timestep.    
+    Caev = Caev[1:len(Ar40)]
+    Cbev = Cbev[1:len(Ar36)]
+    Rev = Caev/Cbev#invalid value encountered in divide
+    #e is the enrichment (del) relative to atmospheric in per mil. 
+    permil = (Rev/(Rin-1))/(Rin*1000.0)
+    return permil, Caev, Cbev
+
+def Plot(vis, vis_sec):    
+    permil, Caev, Cbev = enrich_cor(vis, vis_sec)
     x = condition[:, 1]
-    plt.plot(x, u, 'b-', x, u_sec, 'r-')
-    plt.xlabel('distance (x)')
-    plt.ylabel('Concentration (u)')
-    plt.title('Argon Concentration')
+    x = x[1:len(x)]
+    f1 = plt.figure()
+    plt.xlabel('distance (m)')
+    plt.ylabel('Concentration (ppm)')
+    plt.title('Argon Isotope Concentrations')
+    plt.subplot(111).set_yscale('log')
     plt.grid(True)
-    plt.savefig("F1D_result.png")
+    f2 = plt.figure()
+    ax1 = f1.add_subplot(111)
+    ax2 = f2.add_subplot(111)
+    ax1.plot(x, Caev, 'r-', x, Cbev, 'b-')
+    ax2.plot(x, permil, 'b-')
+    plt.xlabel('distance (m)')
+    plt.ylabel('Isotope enrichment (permil)')
+    plt.title('Argon Isotope Enrichment')
+    plt.grid(True)
+    
     plt.show()
 
-def KIF_Mag():
-    #Temperature (Kelvin)
-    T = 1100
-    #Pressure (MPa)
-    P = 1000
-    #Water Concentration (weight percent)
-    W = 0.1669364
-    #mass slection coefficent
-    E = 0.1
-    vis = (np.exp((14.627-17913/T-2.569*P/T)+(35936/T+27.42*P/T)*W))*10**-12
-    vis_sec = vis*(40.0/36.0)**(E/2.0)
-    return vis, vis_sec
-    
-vis, vis_sec = KIF_Mag()
 Plot(vis,vis_sec)

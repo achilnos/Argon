@@ -6,8 +6,8 @@ from numpy import loadtxt
 from F1D_Initial_Condition import condition
 import matplotlib.pylab as plt
 
-Arforty = np.loadtxt('Ar40','float',)
-Arthirtysix = np.loadtxt('Ar36','float',)
+Arforty = np.loadtxt('Ar40','float128',)
+Arthirtysix = np.loadtxt('Ar36','float128',)
 
 def enrich_cor(Ar40, Ar36, x):
     #afrac is the initial fraction of 36Ar in the argon enriched couple at the begining of the experiment. Currently using atmospheric argon values. 
@@ -31,9 +31,11 @@ def enrich_cor(Ar40, Ar36, x):
     #Cbev is the evolved concentration of 40Ar along the x axis at a particular timestep
     Cbev = Ar40*Cbin
     #Rev is the evolved ratio of 36Ar to 40Ar along the x axis at a particular timestep.    
-    Rev = Faev/Fbev#invalid value encountered in divide
+    Caev = Caev[1:len(Ar40)]
+    Cbev = Cbev[1:len(Ar36)]    
+    Rev = Caev/Cbev#invalid value encountered in divide
     #e is the enrichment (del) relative to atmospheric in per mil. 
-    permil = (Rev/Rin-1)/Rin*1000.0
+    permil = (Rev/(Rin-1))/(Rin*1000.0)
     return permil, Caev, Cbev
 
 def Plot():    
