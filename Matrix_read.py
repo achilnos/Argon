@@ -7,6 +7,7 @@
 import numpy as np
 import types as ty
 import linecache as ln
+import string
 
 def matrix_gen():#generates a matrix with higher values toward the center.
     m = 9
@@ -31,21 +32,29 @@ matrix_gen()
 def data_read():
     x = np.empty(1047) # need this to be the right length
     with open('Spinel xmap_1 copy.txt') as f:
-        for i in xrange(31):
+        for i in xrange(33):
+            f.next()
             y = ln.getline('Spinel xmap_1 copy.txt', i)
         for line in f:
-            x = np.array(line)
-            #print x
-            #print len(y) what is the length of the array. what exactly am I reading from the file?
+            x = ln.getline('Spinel xmap_1 copy.txt', line)
+            #x = x.translate(None, 't')
+            #remove non numbers and convert numbes to float!
+            print x
             x = np.vstack((y, x))
     with open('Spinel xmap_1 copy.txt') as f:
-        for j in xrange(31):
-            z = ln.getline('Spinel xmap_1 copy.txt', j)
+        for i in xrange(33):
+            f.next()
+            y = ln.getline('Spinel xmap_1 copy.txt', i)
+            print y
         for line in f:
-            w = np.array(line)
-            z = np.vstack((w, z))
-    print 'len(x) is ',len(x), 'len(z) is ', len(z)
-    print 'x is ', x, 'z is ', z
+            z = ln.getline('Spinel xmap_1 copy.txt', line)
+            #z = z.translate(None, 't')
+            #remove non numbers and convert numbes to float!
+            print z
+            z = np.array(z)
+            z = np.vstack((y, z))
+    #3print 'len(x) is ', len(x),# 'len(z) is ', len(z)
+    #print 'x is ', x, 'z is ', z
     return x, z
 
 def combine():
