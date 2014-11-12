@@ -13,7 +13,7 @@ import numpy as np
 
 def KIF_Mag():
     #Temperature (Kelvin)
-    T = 2000
+    T = 1000
     #Pressure (MPa)
     P = 1000
     #Water Concentration (weight percent)

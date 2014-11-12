@@ -37,18 +37,16 @@ def check_value():
     A = data_read()
     B = data_read_2()
     threshold = 0.1
-    pixels = list()
-    width = list()
+    pixels = []
+    width = []
     for i in range(len(A)):
         a = A[i]
         b = B[i]
-        c = list()         
+        c = []         
         for j in range(len(a)):
-            if a[j] > threshold:
-                if b[j] > threshold:
-                    c.append(j)
+            if a[j] > threshold and b[j] > threshold:
+                c.append(j)
         if len(c) > 2:
-            
             wide = c[-1] - c[0]#this is wrong. what is the problem? 
         else:
             wide = 10
@@ -62,9 +60,12 @@ def plotter():
     width, pixels = check_value()
     a, b = zip(*width)
     c, d = zip(*pixels)
-    #e = pl.plot(a, b, label = "width")
-    f = pl.plot(c, d, label = "spinel abundance")
+    e = pl.plot(a, b, label = "width")
+    f = pl.plot(c, d, label = "spinel")
     pl.legend(loc='upper left')
+    pl.ylabel('Relative amount of Spinel detected')
+    pl.xlabel('Distance from TC end')
+    pl.savefig('NW1_spinel')
     pl.show()
 
 plotter()
