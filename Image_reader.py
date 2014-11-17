@@ -6,8 +6,7 @@ import numpy as np
 import pylab as pl
 from scipy.optimize import curve_fit
 
-class F:
-  
+class F:  
   def __call__(self, x, a, b, c):
      return a * np.exp(x + b) + c
      
@@ -43,10 +42,11 @@ def data_read_2():
 def check_value():
     A = data_read()
     B = data_read_2()
-    threshold = 50 #sets a minimum intensity in each pixel (relative to the abundance of the element) to be recognized. 
+    threshold = 70 #sets a minimum intensity in each pixel (relative to the abundance of the element) to be recognized. 
+    wide = 0
     pixels = []
     width = []
-    mainthick = 40 #sets a minimum thickness for the spinel crystal to be recognized as the main spinel fragment. 
+    mainthick = 100 #sets a minimum thickness for the spinel crystal to be recognized as the main spinel fragment. 
     for i in range(len(A)):
         fragment_num = 1 #this variable keeps track of the number of recognized fragments of spinel. 
         crys_slice = [0] #this string holds ints coresponding to the horizontal position of each recognized pixel with a recognized equivalent in the opposing matrix (for the other element) in order or recognition (left to right)
@@ -55,23 +55,23 @@ def check_value():
         for j in range(len(A[i])):
             if A[i][j] > threshold and B[i][j] > threshold:
                 crys_slice.append(j)
-                print "thershold met"
+                #print "thershold met"
             else:
                 gap_slice.append(j)
-                print "threshold fails"
+                #print "threshold fails"
             if len(gap_slice) >= 5 and len(crys_slice) <= gap_thresh/4:
                 crys_slice = [0]
-                print "gap detected"
+                #print "gap detected"
                 fragment_num = fragment_num + 1
             else:
                 mainthick = len(crys_slice)
                 gap_thresh = mainthick
+            print fragment_num
         #end the string "c" if it ewncounters
-        if len(crys_slice) >= mainthick/4:
-            
+        if len(crys_slice) >= mainthick/4:           
             wide = max(crys_slice) - min(crys_slice)#this is wrong. what is the problem? 
-        else:
-            wide = 0 #what does this do?
+        #else:
+            #wide = 0 #what does this do?
         width.append((i, wide))
         pixels.append((i, len(crys_slice)))
     #print 'number of pixels is ', pixels,'                                      ', 'width is ', width
@@ -84,14 +84,23 @@ def plotter():
     width, pixels = check_value()
     a, b = zip(*width)
     c, d = zip(*pixels)
-    e = pl.plot(a, b, label = "width")
-    #f = pl.plot(c, d, label = "spinel")
+
+
     #popt, pcov = curve_fit(f.__call__, a, b)
     #g = pl.plot(a, f(a, *popt), 'k-', label = 'fit')
+    pl.figure(1)
+    e = pl.plot(a, b, label = 'width')
     pl.legend(loc='upper left')
-    pl.ylabel('Relative amount of Spinel detected')
+    pl.ylabel('Width of spinel crystal')
     pl.xlabel('Distance from TC end')
     pl.savefig('NW1_spinel')
+    pl.figure(2)
+    f = pl.plot(c, d, label = "spinel")
+    pl.legend(loc='upper left')
+    pl.ylabel('Number of spinel pixels')
+    pl.xlabel('Distance from TC end')
+    pl.savefig('NW1_spinel2')
     pl.show()
+    p.exit()
 
 plotter()
