@@ -1,5 +1,7 @@
 #F1D_Calculation.py
+#/Users/nicholas/documents/Python/Argon/F1D_Calculation.py
 #This script calculates the result of each timestep and plots the result at the final timestep. 
+#has been edited to find the time until equilibration for a 3mm length. 
 
 import numpy as np
 import matplotlib.pylab as plt
@@ -13,8 +15,10 @@ from scipy.sparse import csr_matrix, linalg
 def Calculator():
     u = (condition[:, 0])
     for timestep in range(0, nt):
-        if u[1] > 0.00001:
-            print 'Optimal runtime is', timestep*dt, 'seconds.'
+        if u[1] + u[1]/50. > u[nx-1]:
+            print 'Runtime to equilibrium is ', timestep*dt, ' seconds ', 'or ', timestep*dt/60./60., ' hours.'
+        #if u[1] > 0.00001:
+        #    print 'Optimal runtime is', timestep*dt, 'seconds.'
             return u
         U = u
         U = np.delete(U, [0, nx-1], axis = 0)

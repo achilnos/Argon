@@ -22,3 +22,4 @@ D = np.identity(nx-2) - (vis*dt/dx**2)*B
 D_sec = np.identity(nx-2) - (vis_sec*dt/dx**2)*B
 Dsp = csr_matrix(np.identity(nx-2) - (vis*dt/dx**2)*B)
 D_secsp = csr_matrix(np.identity(nx-2) - (vis_sec*dt/dx**2)*B)
+print D

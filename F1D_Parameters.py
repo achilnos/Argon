@@ -7,7 +7,9 @@
 #T = 700C --> vis = 8.54662*10**-11
 #T = 800C --> vis = 2.20661*10**-10
 #T = 900C --> vis = 4.84651*10**-10
+#T = 1000C --> vis = 2.39408210334*10**-10
 #If computation can't do it try at 10 or 100 times speed by rasing vis and lowing nt. Currently at 100 times
+#has been modified to reflect the radius of the current TZM sample. Currently using this to estimate the time until equilbration of the cylinder. 
 
 import numpy as np
 
@@ -25,11 +27,11 @@ def KIF_Mag():
     return vis, vis_sec
 
 #Length of System
-L = 0.008
+L = 0.00169
 #Number of steps in space
-nx = 10000
+nx = 1000
 #Number of steps in time
-nt = 36000
+nt = 3600
 #Width of the time step (what are the units for this?)
 dt = 1
 #Width of the space step

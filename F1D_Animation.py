@@ -15,6 +15,8 @@ def run_animate(timestep):
     global nt
     if timestep > nt:
         return None
+    else: 
+        print timestep
     U = u
     U = np.delete(U, [0, nx-1], axis = 0)
     U = U + bc
