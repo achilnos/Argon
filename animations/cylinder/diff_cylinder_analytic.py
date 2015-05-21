@@ -9,10 +9,6 @@ import matplotlib.image as mpimg
 
 def Calculator(t, threshold, length, width, x, y, d):
     z_vals = np.empty([width,length])    
-    a = np.linspace(1.,width,len(x))
-    b = np.hstack((a,a[::-1]))
-    print b
-    circlescaling = np.linspace(1,width,len(x))
     count_length = -len(y)
     uo = 1
     for y_val in range(len(y)-1):    
