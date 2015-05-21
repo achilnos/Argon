@@ -1,8 +1,8 @@
 from scipy import misc as sc
 from scipy import special as sp
 import numpy as np
-
-
+import matplotlib.pyplot as plt
+import csv as csv
 #test
 #the purpose of the snipit is to test the syntax of my forumation for the analytic solution to the diffusion equation in cylinder (radial component, so polar) to m = 6. The accuracy of this solution is limited by the number of terms used in the series. Since the first six values of beta are availible, I will use a sixth order approximation, which should be pretty accurate. lambda is not ideal because of use of infinite series. 
 #I think that kappa is the diffusivity
@@ -19,7 +19,6 @@ def J_fun(x, alpha, threshold):
 
 def radial(n, t, a, beta, T, threshold_j):
     r = 0.05
-    print t
     radial_state = []
     while r < a:
         y = np.sum(np.exp(-np.power(beta[n],2)*T)*(J_fun(r*beta[n]/a, 0, threshold_j))/(beta[n]*J_fun(beta[n], 1, threshold_j)))
@@ -68,20 +67,27 @@ def Plot():
     d = 7.9
     x = np.linspace(-width,width,2*width)
     y = np.linspace(-length,length,2*length)
-    initial_time = 195
-    t = initial_time
-    time_axis = solution(t)
+    t = 195
+    time_axis = solution(t,threshold)
     while t < threshold:
         t = t+1
-        system_state = solution(t)
+        system_state = solution(t,threshold)
+        print 'shape of system_state is ', np.shape(system_state)
         time_axis = np.dstack((time_axis,system_state))
+        print 'shape of time_axis is ', np.shape(time_axis)
+    with open('test.csv', 'w') as fp:
+        slice = time_axis[:,:,2]
+        print 'shape of slice is ', np.shape(slice)
+        a = csv.writer(fp, delimiter=',')
+        data = slice
+        a.writerows(data)
     t = 80
     maximum_value = np.amax(time_axis)
     minimum_value = np.amin(time_axis)    
-    save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)        
+    #save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)        
 
     #plt.show()
 
-#Plot()
+Plot()
 
 #next get vector for all r. Attached to the timelooping function constructed for the 2d model. 

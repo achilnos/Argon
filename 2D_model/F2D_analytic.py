@@ -21,8 +21,6 @@ def Calculator(t, threshold, length, width, x, y, d):
         for x_val in range(len(x)-1):
             this_x = x[x_val]
             z_vals[this_x,this_y] = (uo/np.sqrt(4.*np.pi*d*t))*(np.exp(np.square(this_x)/(4.*d*t)-np.square(width)/(4.*d*t)) + np.exp(np.square(this_y)/(4.*d*t)-np.square(length)/(4.*d*t)))
-            #* circlescaling[this_x]#problem is with circle scaling need to index a value out of the circlescaling vector            
-            #print z_vals
             count_width = count_width+1
         count_length = count_length+1 
     return z_vals    
@@ -49,8 +47,7 @@ def Plot():
     d = 7.9
     x = np.linspace(-width,width,2*width)
     y = np.linspace(-length,length,2*length)
-    initial_time = 195
-    t = initial_time
+    t = 199
     time_axis = Calculator(t, threshold, length, width, x, y, d)
     while t < threshold:
         t = t+1
@@ -59,8 +56,7 @@ def Plot():
     t = 80
     maximum_value = np.amax(time_axis)
     minimum_value = np.amin(time_axis)    
-    save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)        
-
+    save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)
     #plt.show()
 
 Plot()
