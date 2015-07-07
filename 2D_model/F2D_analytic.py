@@ -1,4 +1,5 @@
 #diff_2d_rectangular
+#the purpose of this program is to produce an animation of diffusion into a 2D rectangluar object. Uses a rectangular boudary that must staify the direlect boundary condition. 
 #usegiff maker.me is nessearay. 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,9 +10,9 @@ import matplotlib.image as mpimg
 
 def Calculator(t, threshold, length, width, x, y, d):
     z_vals = np.empty([width,length])    
-    a = np.linspace(1.,width,len(x))
-    b = np.hstack((a,a[::-1]))
-    print b
+    a = np.linspace(1.,width,len(x))#what is a?
+    b = np.hstack((a,a[::-1]))#what is b?
+    print 'b is ', b
     circlescaling = np.linspace(1,width,len(x))
     count_length = -len(y)
     uo = 1
@@ -30,7 +31,7 @@ def save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)
     while t < threshold-initial_time:
         num = str(t)
         image_name = 'timestep' + num
-        print image_name
+        print 'image name is', image_name
         fig1 = plt.figure()
         system_state = time_axis[:,:,t]
         img = plt.imshow(system_state,interpolation='nearest')
@@ -56,7 +57,7 @@ def Plot():
     t = 80
     maximum_value = np.amax(time_axis)
     minimum_value = np.amin(time_axis)    
-    save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)
+    save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)#what is intial time? 
     #plt.show()
 
 Plot()

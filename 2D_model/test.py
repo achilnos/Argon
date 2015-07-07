@@ -24,9 +24,10 @@ def radial(n, t, a, beta, T, threshold_j):
         y = np.sum(np.exp(-np.power(beta[n],2)*T)*(J_fun(r*beta[n]/a, 0, threshold_j))/(beta[n]*J_fun(beta[n], 1, threshold_j)))
         radial_state = np.append(radial_state,y)
         r = r + 0.1
+    print 'shape of radial state is ', np.shape(radial_state)
     return radial_state
 
-def solution(t,threshold_t):
+def solution(t,threshold_t):#problem may be the order of solution and radial...
     kappa = 1 #diffusivity coefficent
     a = 10 #radius at the surface of the cylinder
     grid_num = 10
@@ -85,9 +86,8 @@ def Plot():
     maximum_value = np.amax(time_axis)
     minimum_value = np.amin(time_axis)    
     #save_image(time_axis, initial_time, threshold, maximum_value, minimum_value)        
-
     #plt.show()
 
 Plot()
 
-#next get vector for all r. Attached to the timelooping function constructed for the 2d model. 
+#form of the data is unexpected. probably a mistake in the way the result is calculated
