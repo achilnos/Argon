@@ -76,8 +76,6 @@ def Plot():
         t = t + incriment
         print 'timestep ', t
         system_state = Calculator(t, threshold, length, width, x, y, d, scaling_vector)
-        system_state = np.multiply(N/(np.float(system_state[0, 0])), system_state)#normalization step
-        print 'Ratio is ', N/np.float(system_state[0, 0])
         time_axis = np.dstack((time_axis,system_state))
         #print 'time_axis shape is... ', np.shape(time_axis)
     maximum_value = np.amax(time_axis)
