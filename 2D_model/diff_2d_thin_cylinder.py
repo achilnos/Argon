@@ -1,6 +1,6 @@
 #diff_2d_thin_cylinder.py
 #the purpose of this program is to produce an animation of diffusion into a 2D rectangluar object. Uses a rectangular boudary that must staify the direlect boundary condition. Next version may use circilar scaling to extend to a cylinder. 
-#usegiff maker.me is nessearay. 
+#note: 1*10**-12 meters squared per second equals 1 micrometers squared per second. Recommend this model treats each grid cell as 1 micrometer and keep diffusion in micrometers squared per second.  
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -11,12 +11,12 @@ incriment = 100
 
 def Calculator(t, threshold, length, width, x, y, d, scaling_vector):
     z_vals = np.empty([width,length])    
-    a = np.linspace(1.,width,len(x))#what is a?
-    b = np.hstack((a,a[::-1]))#what is b?
+    a = np.linspace(1.,width,len(x))
+    b = np.hstack((a,a[::-1]))
     circlescaling = np.linspace(1,width,len(x))
     count_length = -len(y)
-    uo = 1
-    d = d*10.**-12
+    uo = 10
+    #d = d*10.**-12
     for y_val in range(len(y)-1):    
         this_y = y[y_val]
         count_width = -len(x)
@@ -32,15 +32,11 @@ def Calculator(t, threshold, length, width, x, y, d, scaling_vector):
     return z_vals
 
 def save_image(time_axis, initial_time, threshold, maximum_value, minimum_value, start_time, length, width):
-    #startslice = 400 - start_time
-    #t = startslice
-    #endslice = 10000 - start_time
-    slice = 0
-    shape_time = np.shape(time_axis)
-    print shape_time[2]
+    slice = 1#sets start value to select timesteps to make into images. 
+    shape_time = np.shape(time_axis)#set end value for last timestep to be made into an image.
     while slice <  shape_time[2]:
         num = str(slice + start_time)
-        image_name = 'long' + num
+        image_name = 'wafer_' + num
         print image_name, 'has been saved'
         fig1 = plt.figure()
         system_state = time_axis[:,:,slice]
@@ -54,15 +50,17 @@ def save_image(time_axis, initial_time, threshold, maximum_value, minimum_value,
         plt.close()
         
 def Plot():    
-    threshold = 100
+    threshold = 5000
     length = 50
     width = 3500  
     scaling_vector =  np.empty(width)
     r = 0
     while r < width - 1:
         r = r + 1
-        scaling_vector[r] = 1./np.float(width)
-    d = 7.9
+        scaling_vector[r] = 1.
+        #scaling_vector[r] = 1./np.float(width)
+        #scaling_vector[r] = 1./(np.float(r)/np.float(width))
+    d = 1.86#micrometers squared per second. Based on TZMW8
     x = np.linspace(-width,width,2*width)
     y = np.linspace(-length,length,2*length)
     start_time = 0
