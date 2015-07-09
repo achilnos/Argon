@@ -7,7 +7,7 @@ import matplotlib.animation as animation
 import matplotlib.cm as cm
 import matplotlib.image as mpimg
 
-incriment = 50
+incriment = 100
 
 def Calculator(t, threshold, length, width, x, y, d, scaling_vector):
     z_vals = np.empty([width,length])    
@@ -31,26 +31,29 @@ def Calculator(t, threshold, length, width, x, y, d, scaling_vector):
     return z_vals
 
 def save_image(time_axis, initial_time, threshold, maximum_value, minimum_value, start_time):
-    startslice = 400 - start_time
-    t = startslice
-    endslice = 10000 - start_time
-    while t < endslice + 1:
-        num = str(t + start_time)
+    #startslice = 400 - start_time
+    #t = startslice
+    #endslice = 10000 - start_time
+    slice = 0
+    shape_time = np.shape(time_axis)
+    print shape_time[2]
+    while slice <  shape_time[2]:
+        num = str(slice + start_time)
         image_name = 'long' + num
         print image_name, 'has been saved'
         fig1 = plt.figure()
-        system_state = time_axis[:,:,t]
+        system_state = time_axis[:,:,slice]
         img = plt.imshow(system_state,interpolation='nearest')        
-        plt.xlim([0,200])
-        plt.ylim([0,200])
+        plt.xlim([0,length*2])
+        plt.ylim([0,width*2])
         plt.pcolor(system_state, vmin=minimum_value, vmax=maximum_value)
         plt.colorbar()
-        t = t + incriment - 1
+        slice = slice + 1 
         plt.savefig(image_name, bbox_inches='tight')
         plt.close()
         
 def Plot():    
-    threshold = 10000
+    threshold = 5000
     length = 50
     width = 3500  
     scaling_vector =  np.empty(width)
@@ -66,14 +69,14 @@ def Plot():
     time_axis = Calculator(t, threshold, length, width, x, y, d, scaling_vector)
     #print 'time_axis shape is ', np.shape(time_axis)
     while t < threshold:
-        t = t + incriment - 1
+        t = t + incriment
         print 'timestep ', t
         system_state = Calculator(t, threshold, length, width, x, y, d, scaling_vector)
         time_axis = np.dstack((time_axis,system_state))
         #print 'time_axis shape is... ', np.shape(time_axis)
     maximum_value = np.amax(time_axis)
     minimum_value = np.amin(time_axis)    
-    save_image(time_axis, t, threshold, maximum_value, minimum_value, start_time)#what is intial time? 
+    save_image(time_axis, t, threshold, maximum_value, minimum_value, start_time, length, width)#what is intial time? 
     #plt.show()
 
 Plot()

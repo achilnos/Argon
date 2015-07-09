@@ -16,7 +16,7 @@ def Calculator():
     u = (condition[:, 0])
     for timestep in range(0, nt):
         print timestep
-        if u[5] + u[1]/100. > u[nx-9] - u[nx-9]/100.:
+        if u[nx/8]*10. > u[nx-1]:
             print 'Runtime to equilibrium is ', timestep*dt, ' seconds ', 'or ', timestep*dt/60./60., ' hours.'
         #if u[1] > 0.00001:
         #    print 'Optimal runtime is', timestep*dt, 'seconds.'
