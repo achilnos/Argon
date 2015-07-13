@@ -19,7 +19,7 @@ def KIF_Mag():
     #Pressure (MPa)
     P = 100
     #Water Concentration (weight percent)
-    W = 0.1
+    W = 0.04#set for RLS-41
     #mass slection coefficent
     E = 0.43
     vis = (np.exp((14.627-17913/T-2.569*P/T)+(35936/T+27.42*P/T)*W))*10**-12
@@ -27,7 +27,7 @@ def KIF_Mag():
     return vis, vis_sec
 
 #Length of System
-L = 0.00169
+L = 0.00169#meters
 #Number of steps in space
 nx = 1000
 #Number of steps in time

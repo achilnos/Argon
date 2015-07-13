@@ -15,20 +15,20 @@ bc_sec = np.zeros([nx-2, 1])
 #bc = bc.T
 #bc_sec = bc_sec.T
 # Neumann boundary conditions
-bc[0] = vis*dt*-UnL/(dx) #N. B. C. left side
-bc_sec[0] = vis_sec*dt*-UnL/(dx) #N. B. C. left side
-bc[nx-3] = vis*dt*UnR/(dx) #N. B. C. right side
-bc_sec[nx-3] = vis_sec*dt*UnR/(dx)#N. B. C. right side
-bc = bc.T
-bc_sec = bc_sec.T
+#bc[0] = vis*dt*-UnL/(dx) #N. B. C. left side
+#bc_sec[0] = vis_sec*dt*-UnL/(dx) #N. B. C. left side
+#bc[nx-3] = vis*dt*UnR/(dx) #N. B. C. right side
+#bc_sec[nx-3] = vis_sec*dt*UnR/(dx)#N. B. C. right side
+#bc = bc.T
+#bc_sec = bc_sec.T
 #calculates the coefficent matrix for the implicent scheme. 
 A = np.delete(np.hstack((np.zeros([nx-2, 1]),np.identity(nx-2))), nx-2, 1)
 # Dirichlet B.C.s calcs
-#B = A + A.transpose() - 2 * np.identity(nx-2)
-#D = np.identity(nx-2) - (vis*dt/dx**2)*B
-#D_sec = np.identity(nx-2) - (vis_sec*dt/dx**2)*B
-#Dsp = csr_matrix(np.identity(nx-2) - (vis*dt/dx**2)*B)
-#D_secsp = csr_matrix(np.identity(nx-2) - (vis_sec*dt/dx**2)*B)
+B = A + A.transpose() - 2 * np.identity(nx-2)
+D = np.identity(nx-2) - (vis*dt/dx**2)*B
+D_sec = np.identity(nx-2) - (vis_sec*dt/dx**2)*B
+Dsp = csr_matrix(np.identity(nx-2) - (vis*dt/dx**2)*B)
+D_secsp = csr_matrix(np.identity(nx-2) - (vis_sec*dt/dx**2)*B)
 # Neumann B. C. s calcs
 B = A + A.transpose() - 2 * np.identity(nx-2)
 B[0,0] = -1
